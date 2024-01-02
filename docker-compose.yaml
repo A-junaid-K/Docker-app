@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  api: 
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - psql
+    restart: always
+    ports:
+      - 3000:3000
+    environment:
+      - DSN=host=psql user=ajk password=11012005 dbname=ajkdb port=5432 sslmode=disable
+
+  psql:
+    container_name: psql
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=ajk
+      - POSTGRES_PASSWORD=11012005
+      - POSTGRES_DB=ajkdb
+    volumes:
+      - data:/var/lib/postgresql/data
+    ports:
+      - 5433:5432
+
+volumes:
+  data:
